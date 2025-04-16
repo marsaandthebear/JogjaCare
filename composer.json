@@ -17,6 +17,8 @@
         "php": "^8.2",
         "abbasudo/laravel-purity": "^3.3",
         "arcanedev/log-viewer": "^11.0",
+        "botman/botman": "^2.8",
+        "botman/driver-web": "^1.5",
         "intervention/image": "^3.7",
         "intervention/image-laravel": "^1.2",
         "joeri-abbo/laravel-easy-translations": "^1.0",
