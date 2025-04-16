@@ -5,6 +5,7 @@ use App\Http\Controllers\LanguageController;
 use App\Livewire\Privacy;
 use App\Livewire\Terms;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BotManController;
 
 /*
 *
@@ -156,3 +157,5 @@ Route::get('/aboutus', [App\Http\Controllers\Frontend\FrontendController::class,
 Route::get('/contact', [App\Http\Controllers\Frontend\FrontendController::class, 'contact'])->name('frontend.contact');
 Route::post('/contact', [App\Http\Controllers\Frontend\ContactController::class, 'sendEmail'])->name('frontend.contact.send');
 Route::get('/partner', [App\Http\Controllers\Frontend\FrontendController::class, 'partner'])->name('frontend.partner');
+
+Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);

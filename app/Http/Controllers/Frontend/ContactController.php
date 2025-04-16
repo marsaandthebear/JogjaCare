@@ -18,7 +18,7 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        Mail::to('dgtmeila.a@gmail.com')->send(new ContactFormMail($validatedData));
+        Mail::to('jogjacare775@gmail.com')->send(new ContactFormMail($validatedData));
 
         return redirect()->back()->with('success', 'Pesan Anda telah berhasil dikirim!');
     }

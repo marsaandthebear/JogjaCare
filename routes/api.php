@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BotManController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,6 @@ Route::get('translations/{locale}', function ($locale) {
 
     return response()->json($translations[$locale] ?? $translations['en']);
 });
+
+// Route untuk FAQ Data
+Route::get('/faq-data', [BotManController::class, 'getFaqData']);
