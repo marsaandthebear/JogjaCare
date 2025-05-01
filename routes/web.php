@@ -159,3 +159,4 @@ Route::post('/contact', [App\Http\Controllers\Frontend\ContactController::class,
 Route::get('/partner', [App\Http\Controllers\Frontend\FrontendController::class, 'partner'])->name('frontend.partner');
 
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+

@@ -203,4 +203,30 @@
     color: white;
     font-size: 24px;
 }
+
+/* Tombol Chat CS */
+.chat-cs-button {
+    text-align: center;
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.chat-cs-link {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.chat-cs-link:hover {
+    background-color: #218838;
+}
+
+
 </style>

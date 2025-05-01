@@ -3,26 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Notification;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\View\View;
 
 class NotificationsController extends Controller
 {
-    public $module_title;
-
-    public $module_name;
-
-    public $module_path;
-
-    public $module_icon;
-
-    public $module_model;
-
     public function __construct()
     {
         // Page Title
@@ -35,7 +21,7 @@ class NotificationsController extends Controller
         $this->module_path = 'notifications';
 
         // module icon
-        $this->module_icon = 'c-icon fas fa-bell';
+        $this->module_icon = 'fas fa-bell';
 
         // module model name, path
         $this->module_model = "App\Models\User";
@@ -44,27 +30,23 @@ class NotificationsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return Response
      */
-    public function index(): View
+    public function index()
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
         $module_path = $this->module_path;
         $module_icon = $this->module_icon;
         $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
         $module_action = 'List';
 
-        $$module_name = auth()->user()->notifications()->paginate();
-        $unread_notifications_count = auth()->user()->unreadNotifications()->count();
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        $notifications = Auth::user()->notifications()->paginate();
+        $unread_notifications_count = Auth::user()->unreadNotifications()->count();
 
         return view(
-            "backend.{$module_path}.index",
-            compact('module_title', 'module_name', "{$module_name}", 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'unread_notifications_count')
+            "backend.$module_path.index",
+            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'notifications', 'unread_notifications_count')
         );
     }
 
@@ -72,90 +54,48 @@ class NotificationsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return View
+     * @return Response
      */
-    public function show($id): View
+    public function show($id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
         $module_path = $this->module_path;
         $module_icon = $this->module_icon;
         $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
         $module_action = 'Show';
 
-        $$module_name_singular = Notification::where('id', '=', $id)->where('notifiable_id', '=', auth()->user()->id)->first();
+        $notification = Auth::user()->notifications()->where('id', $id)->first();
 
-        if ($$module_name_singular) {
-            if ($$module_name_singular->read_at === '') {
-                $$module_name_singular->read_at = Carbon::now();
-                $$module_name_singular->save();
-            }
-        } else {
-            Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-            abort(404);
-        }
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        // Mark as read
+        $notification->markAsRead();
 
         return view(
-            "backend.{$module_name}.show",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "{$module_name_singular}")
+            "backend.$module_path.show",
+            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'notification')
         );
     }
 
     /**
-     * Delete All the Notifications.
+     * Mark all notifications as read.
      *
-     * @param  int  $id
-     * @return RedirectResponse
+     * @return Response
      */
-    public function deleteAll($id): RedirectResponse
+    public function markAllAsRead()
     {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
-        $module_action = 'Delete All';
-
-        $user = auth()->user();
-
-        $user->notifications()->delete();
-
-        flash('All Notifications Deleted')->success()->important();
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Auth::user()->unreadNotifications->markAsRead();
 
         return back();
     }
 
     /**
-     * Marks all notifications as read for the authenticated user.
+     * Delete all notifications.
      *
-     * @return RedirectResponse
+     * @return Response
      */
-    public function markAllAsRead(): RedirectResponse
+    public function deleteAll()
     {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
-        $module_action = 'Mark All As Read';
-
-        $user = auth()->user();
-
-        $user->unreadNotifications()->update(['read_at' => now()]);
-
-        flash('All Notifications Marked As Read')->success()->important();
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Auth::user()->notifications()->delete();
 
         return back();
     }
