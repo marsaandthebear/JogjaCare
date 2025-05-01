@@ -26,33 +26,40 @@
             <div class="col">
                 <div class="table-responsive">
                     <table class="table table-bordered">
-                        <?php $data = json_decode($$module_name_singular->data); ?>
                         <tbody>
                             <tr>
                                 <th>Title</th>
                                 <th>
-                                    {{ $data->title }}
+                                    {{ $module_name_singular->data['title'] }}
                                 </th>
                             </tr>
                             <tr>
                                 <th>Text</th>
                                 <td>
-                                    {!! $data->text !!}
+                                    {!! $module_name_singular->data['text'] ?? '' !!}
                                 </td>
                             </tr>
-                            @if($data->url_backend != '')
+                            @if(isset($module_name_singular->data['url_backend']) && $module_name_singular->data['url_backend'] != '')
                             <tr>
                                 <th>URL Backend</th>
                                 <td>
-                                    Backend: <a href="{{$data->url_backend}}">{{$data->url_backend}}</a>
+                                    Backend: <a href="{{$module_name_singular->data['url_backend']}}">{{$module_name_singular->data['url_backend']}}</a>
                                 </td>
                             </tr>
                             @endif
-                            @if($data->url_frontend != '')
+                            @if(isset($module_name_singular->data['url_frontend']) && $module_name_singular->data['url_frontend'] != '')
                             <tr>
                                 <th>URL Frontend</th>
                                 <td>
-                                    Frontend: <a href="{{$data->url_frontend}}">{{$data->url_frontend}}</a>
+                                    Frontend: <a href="{{$module_name_singular->data['url_frontend']}}">{{$module_name_singular->data['url_frontend']}}</a>
+                                </td>
+                            </tr>
+                            @endif
+                            @if(isset($module_name_singular->data['module']))
+                            <tr>
+                                <th>Module</th>
+                                <td>
+                                    {{ $module_name_singular->data['module'] }}
                                 </td>
                             </tr>
                             @endif
@@ -67,8 +74,8 @@
         <div class="row">
             <div class="col">
                 <small class="float-end text-muted">
-                    Updated: {{$$module_name_singular->updated_at->diffForHumans()}},
-                    Created at: {{$$module_name_singular->created_at->isoFormat('LLLL')}}
+                    Updated: {{$module_name_singular->updated_at->diffForHumans()}},
+                    Created at: {{$module_name_singular->created_at->isoFormat('LLLL')}}
                 </small>
             </div>
         </div>

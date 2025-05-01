@@ -45,7 +45,10 @@ class RegisteredUserController extends Controller
         'username' => strval(intval(config('app.initial_username')) + User::max('id') + 1), // Tambahkan username
     ]);    
     
-    event(new UserRegistered($request, $user));
+    $data = $request->only(['name', 'email']); // atau data lain sesuai kebutuhan
+    event(new UserRegistered($data, $user));
+
+
 
     Auth::login($user);
 

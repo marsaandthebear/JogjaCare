@@ -1,33 +1,50 @@
-<!-- Chat Widget Implementation -->
-<div class="botman-widget">
-    <!-- Chat Bubble -->
-    <div class="chat-bubble" id="chatBubble">
-        <div class="chat-bubble-icon">💬</div>
-    </div>
-    
-    <!-- Chat Widget Container -->
-    <div class="chat-widget-container" id="chatWidget">
-        <div class="chat-widget-header">
-            <h3 class="chat-widget-title">JogjaCare Bot</h3>
-            <div class="chat-widget-actions">
-                <a href="#" id="aboutBot">Info</a>
-                <a href="#" id="closeWidget">✕</a>
+@if(auth()->check())
+    <!-- Chat Widget Implementation -->
+    <div class="botman-widget">
+        <!-- Chat Bubble -->
+        <div class="chat-bubble" id="chatBubble">
+            <div class="chat-bubble-icon">💬</div>
+        </div>
+        
+        <!-- Chat Widget Container -->
+        <div class="chat-widget-container" id="chatWidget">
+            <div class="chat-widget-header">
+                <h3 class="chat-widget-title">JogjaCare Bot</h3>
+                <div class="chat-widget-actions">
+                    <a href="#" id="aboutBot">Info</a>
+                    <a href="#" id="closeWidget">✕</a>
+                </div>
+            </div>
+            <div class="chat-widget-body">
+                <div class="chat-widget-messages" id="chatMessages"></div>
+                <div class="faq-buttons-wrapper" id="faq-buttons-wrapper">
+                    <div id="faq-buttons-container" class="faq-buttons"></div>
+                </div>
+            </div>
+            <div class="chat-widget-footer">
+                <form id="chatForm" class="chat-widget-form">
+                    <input type="text" class="chat-widget-input" id="userInput" placeholder="Pilih kategori di atas atau tulis...">
+                    <button type="submit" class="chat-widget-submit">Kirim</button>
+                </form>
+                <!-- Tombol CS -->
+                <div id="csButton" class="chat-cs-button" style="display: none;">
+                    <a href="https://wa.me/6289674366444?text=Halo%20saya%20butuh%20bantuan%20dari%20CS" 
+                    target="_blank" 
+                    class="chat-cs-link">
+                        Bicara dengan CS
+                    </a>
+                </div>
+
             </div>
         </div>
-        <div class="chat-widget-body">
-            <div class="chat-widget-messages" id="chatMessages"></div>
-            <div class="faq-buttons-wrapper" id="faq-buttons-wrapper">
-                <div id="faq-buttons-container" class="faq-buttons"></div>
-            </div>
-        </div>
-        <div class="chat-widget-footer">
-            <form id="chatForm" class="chat-widget-form">
-                <input type="text" class="chat-widget-input" id="userInput" placeholder="Pilih kategori di atas atau tulis...">
-                <button type="submit" class="chat-widget-submit">Kirim</button>
-            </form>
-        </div>
     </div>
-</div>
+@else
+    <!-- Not Logged In Notice -->
+    <div class="chat-login-warning" style="padding: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+        <p>Anda harus <a href="{{ route('login') }}">login</a> terlebih dahulu untuk menggunakan fitur chatbot.</p>
+    </div>
+@endif
+
 
 <script>
     // Data FAQ
@@ -161,172 +178,438 @@
     };
 
     // Inisialisasi chat widget
-    document.addEventListener('DOMContentLoaded', function() {
-        const chatBubble = document.getElementById('chatBubble');
-        const chatWidget = document.getElementById('chatWidget');
-        const closeWidget = document.getElementById('closeWidget');
-        const chatForm = document.getElementById('chatForm');
-        const userInput = document.getElementById('userInput');
-        const chatMessages = document.getElementById('chatMessages');
-        const buttonsContainer = document.getElementById('faq-buttons-container');
-        const aboutBot = document.getElementById('aboutBot');
+document.addEventListener('DOMContentLoaded', function() {
+    const chatBubble = document.getElementById('chatBubble');
+    const chatWidget = document.getElementById('chatWidget');
+    const closeWidget = document.getElementById('closeWidget');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const buttonsContainer = document.getElementById('faq-buttons-container');
+    const aboutBot = document.getElementById('aboutBot');
+    const csButton = document.getElementById('csButton');
+    
+    // Variable untuk mengontrol mode chat
+    let isCsMode = localStorage.getItem('jogjaCareIsCsMode') === 'true' || false;
+    
+    // Fungsi untuk menyimpan pesan ke localStorage
+    function saveMessageToHistory(type, message) {
+        // Ambil history chat yang sudah ada
+        let chatHistory = JSON.parse(localStorage.getItem('jogjaCareHistory') || '[]');
         
-        // Toggle widget saat bubble diklik
-        chatBubble.addEventListener('click', function() {
-            if (chatWidget.style.display === 'flex') {
-                chatWidget.style.display = 'none';
-            } else {
-                chatWidget.style.display = 'flex';
-                // Tampilkan pesan intro dan kategori setelah widget dibuka
-                if (chatMessages.children.length === 0) {
-                    addBotMessage("👩‍⚕️ Hai! Saya siap bantu cari rumah sakit di sekitar tempat wisata Jogja. Silakan pilih kategori:");
-                    showCategories();
+        // Tambahkan pesan baru
+        chatHistory.push({
+            type: type, // 'user' atau 'bot'
+            message: message,
+            timestamp: new Date().getTime()
+        });
+        
+        // Simpan kembali ke localStorage
+        localStorage.setItem('jogjaCareHistory', JSON.stringify(chatHistory));
+    }
+    
+    // Fungsi untuk memuat history chat dari localStorage
+    function loadChatHistory() {
+        const chatHistory = JSON.parse(localStorage.getItem('jogjaCareHistory') || '[]');
+        
+        if (chatHistory.length > 0) {
+            // Tampilkan pesan dari history
+            chatHistory.forEach(item => {
+                if (item.type === 'user') {
+                    addUserMessage(item.message, false); // parameter kedua false berarti tidak disimpan lagi
+                } else if (item.type === 'bot') {
+                    addBotMessage(item.message, false);
                 }
-            }
-        });
+            });
+        } else {
+            // Tampilkan pesan intro dan kategori jika tidak ada history
+            addBotMessage("👩‍⚕️ Hai! Saya siap bantu cari rumah sakit di sekitar tempat wisata Jogja. Silakan pilih kategori:", true);
+            showCategories();
+        }
         
-        // Tutup widget
-        closeWidget.addEventListener('click', function(e) {
-            e.preventDefault();
+        // Set mode chat sesuai localStorage
+        if (isCsMode) {
+            document.querySelector('.chat-widget-title').textContent = 'JogjaCare CS';
+            // Sembunyikan tombol kategori
+            if (buttonsContainer) {
+                buttonsContainer.innerHTML = '';
+            }
+            // Sembunyikan tombol CS karena sudah dalam mode CS
+            csButton.style.display = 'none';
+            
+            // Tambahkan tombol untuk kembali ke mode bot
+            addBackToBotButton();
+        }
+    }
+    
+    // Toggle widget saat bubble diklik
+    chatBubble.addEventListener('click', function() {
+        if (chatWidget.style.display === 'flex') {
             chatWidget.style.display = 'none';
-        });
-        
-        // Tampilkan info tentang bot
-        aboutBot.addEventListener('click', function(e) {
-            e.preventDefault();
-            addBotMessage("JogjaCare Assistant adalah layanan informasi untuk membantu wisatawan menemukan fasilitas kesehatan di sekitar tempat wisata Jogja.");
-        });
-        
-        // Kirim pesan dari form
-        chatForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const message = userInput.value.trim();
-            if (message) {
-                addUserMessage(message);
-                processUserMessage(message);
-                userInput.value = '';
-            }
-        });
-        
-        // Tampilkan tombol kategori
-        window.showCategories = function() {
-            if (!buttonsContainer) return;
-            
-            // Bersihkan container
-            buttonsContainer.innerHTML = '';
-            
-            // Tambahkan judul
-            const categoriesHeader = document.createElement('div');
-            categoriesHeader.textContent = 'Pilih Kategori:';
-            categoriesHeader.style.fontWeight = 'bold';
-            categoriesHeader.style.marginBottom = '5px';
-            buttonsContainer.appendChild(categoriesHeader);
-            
-            // Tambahkan tombol untuk setiap kategori
-            Object.keys(faqData).forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'category-button';
-                button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                button.onclick = function() {
-                    const categoryName = category;
-                    // Tambahkan pesan user (simulasi user memilih kategori)
-                    addUserMessage(categoryName);
-                    // Tampilkan pertanyaan dari kategori
-                    showQuestions(categoryName);
-                    // Tambahkan pesan bot
-                    addBotMessage(`❓Pertanyaan dalam kategori *${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}*:`);
-                };
-                buttonsContainer.appendChild(button);
-            });
-        };
-        
-        // Tampilkan tombol pertanyaan dalam kategori
-        window.showQuestions = function(category) {
-            if (!buttonsContainer) return;
-            
-            // Bersihkan container
-            buttonsContainer.innerHTML = '';
-            
-            // Tambahkan tombol kembali
-            const backButton = document.createElement('button');
-            backButton.className = 'back-button';
-            backButton.innerHTML = '&larr; Kembali ke Kategori';
-            backButton.onclick = function() {
-                showCategories();
-                addBotMessage("📚 Silakan pilih kategori pertanyaan:");
-            };
-            buttonsContainer.appendChild(backButton);
-            
-            // Tambahkan tombol untuk setiap pertanyaan
-            const questions = faqData[category];
-            Object.keys(questions).forEach(question => {
-                const button = document.createElement('button');
-                button.className = 'question-button';
-                button.textContent = question;
-                button.onclick = function() {
-                    // Tambahkan pesan user (simulasi user menanyakan pertanyaan)
-                    addUserMessage(question);
-                    // Tambahkan jawaban bot
-                    addBotMessage(`📌 *Jawaban:*\n${questions[question]}`);
-                };
-                buttonsContainer.appendChild(button);
-            });
-        };
-        
-        // Proses pesan dari user
-        function processUserMessage(message) {
-            message = message.toLowerCase().trim();
-            
-            // Periksa apakah pesan adalah kata kunci untuk menampilkan kategori
-            if (message === 'start' || message === 'mulai' || message === 'menu' || message === 'kategori') {
-                addBotMessage("📚 Silakan pilih kategori pertanyaan:");
-                showCategories();
-                return;
-            }
-            
-            // Periksa apakah input adalah kategori
-            if (faqData[message.toLowerCase()]) {
-                const category = Object.keys(faqData).find(cat => cat.toLowerCase() === message.toLowerCase());
-                addBotMessage(`❓Pertanyaan dalam kategori *${category}*:`);
-                showQuestions(category);
-                return;
-            }
-            
-            // Periksa apakah input adalah pertanyaan dari kategori manapun
-            let answered = false;
-            Object.values(faqData).forEach(category => {
-                Object.entries(category).forEach(([question, answer]) => {
-                    if (question.toLowerCase() === message) {
-                        addBotMessage(`📌 *Jawaban:*\n${answer}`);
-                        answered = true;
-                    }
-                });
-            });
-            
-            // Jika tidak ada jawaban yang cocak
-            if (!answered) {
-                addBotMessage("🤔 Saya belum mengenali pesan tersebut. Silakan pilih kategori di bawah ini:");
-                showCategories();
+        } else {
+            chatWidget.style.display = 'flex';
+            // Muat history chat saat widget dibuka jika belum ada pesan
+            if (chatMessages.children.length === 0) {
+                loadChatHistory();
             }
         }
-        
-        // Tambahkan pesan dari bot ke chat
-        function addBotMessage(message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message bot-message';
-            messageDiv.textContent = message.replace(/\*([^*]+)\*/g, '$1'); // Hapus penanda markdown
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // Tambahkan pesan dari user ke chat
-        function addUserMessage(message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message user-message';
-            messageDiv.textContent = message;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
     });
+    
+    // Tutup widget
+    closeWidget.addEventListener('click', function(e) {
+        e.preventDefault();
+        chatWidget.style.display = 'none';
+    });
+    
+    // Tampilkan info tentang bot
+    aboutBot.addEventListener('click', function(e) {
+        e.preventDefault();
+        addBotMessage("JogjaCare Assistant adalah layanan informasi untuk membantu wisatawan menemukan fasilitas kesehatan di sekitar tempat wisata Jogja.");
+    });
+    
+    // Kirim pesan dari form
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (message) {
+            addUserMessage(message);
+            
+            // Cek mode chat saat ini
+            if (isCsMode) {
+                // Kirim ke CS (mode CS aktif)
+                sendMessageToCS(message);
+            } else {
+                // Proses dengan bot (mode bot aktif)
+                processUserMessage(message);
+            }
+            
+            userInput.value = '';
+        }
+    });
+    
+    // Toggle mode CS saat tombol CS diklik
+    document.querySelector('.chat-cs-link').addEventListener('click', function() {
+        if (!isCsMode) {
+            // Beralih ke mode CS
+            isCsMode = true;
+            localStorage.setItem('jogjaCareIsCsMode', 'true');
+            document.querySelector('.chat-widget-title').textContent = 'JogjaCare CS';
+            addBotMessage("🧑‍💼 Anda sekarang terhubung dengan Customer Service kami. Mohon tunggu sebentar untuk balasan dari CS.");
+            // Sembunyikan tombol kategori
+            if (buttonsContainer) {
+                buttonsContainer.innerHTML = '';
+            }
+            // Sembunyikan tombol CS karena sudah dalam mode CS
+            csButton.style.display = 'none';
+            
+            // Tambahkan tombol untuk kembali ke mode bot
+            addBackToBotButton();
+            
+            // Kirim notifikasi ke server bahwa user memulai chat CS
+            startCsChat();
+        }
+    });
+    
+    // Tampilkan tombol kategori
+    window.showCategories = function() {
+        if (!buttonsContainer) return;
+        
+        // Bersihkan container
+        buttonsContainer.innerHTML = '';
+        
+        // Tambahkan judul
+        const categoriesHeader = document.createElement('div');
+        categoriesHeader.textContent = 'Pilih Kategori:';
+        categoriesHeader.style.fontWeight = 'bold';
+        categoriesHeader.style.marginBottom = '5px';
+        buttonsContainer.appendChild(categoriesHeader);
+        
+        // Tambahkan tombol untuk setiap kategori
+        Object.keys(faqData).forEach(category => {
+            const button = document.createElement('button');
+            button.className = 'category-button';
+            button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            button.onclick = function() {
+                const categoryName = category;
+                // Tambahkan pesan user (simulasi user memilih kategori)
+                addUserMessage(categoryName);
+                // Tampilkan pertanyaan dari kategori
+                showQuestions(categoryName);
+                // Tambahkan pesan bot
+                addBotMessage(`❓Pertanyaan dalam kategori *${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}*:`);
+            };
+            buttonsContainer.appendChild(button);
+        });
+    };
+    
+    // Tampilkan tombol pertanyaan dalam kategori
+    window.showQuestions = function(category) {
+        if (!buttonsContainer) return;
+        
+        // Bersihkan container
+        buttonsContainer.innerHTML = '';
+        
+        // Tambahkan tombol kembali
+        const backButton = document.createElement('button');
+        backButton.className = 'back-button';
+        backButton.innerHTML = '&larr; Kembali ke Kategori';
+        backButton.onclick = function() {
+            showCategories();
+            addBotMessage("📚 Silakan pilih kategori pertanyaan:");
+        };
+        buttonsContainer.appendChild(backButton);
+        
+        // Tambahkan tombol untuk setiap pertanyaan
+        const questions = faqData[category];
+        Object.keys(questions).forEach(question => {
+            const button = document.createElement('button');
+            button.className = 'question-button';
+            button.textContent = question;
+            button.onclick = function() {
+                // Tambahkan pesan user (simulasi user menanyakan pertanyaan)
+                addUserMessage(question);
+                // Tambahkan jawaban bot
+                addBotMessage(`📌 *Jawaban:*\n${questions[question]}`);
+            };
+            buttonsContainer.appendChild(button);
+        });
+    };
+    
+    // Proses pesan dari user
+    function processUserMessage(message) {
+        message = message.toLowerCase().trim();
+        
+        // Periksa apakah pesan adalah kata kunci untuk menampilkan kategori
+        if (message === 'start' || message === 'mulai' || message === 'menu' || message === 'kategori') {
+            addBotMessage("📚 Silakan pilih kategori pertanyaan:");
+            showCategories();
+            return;
+        }
+        
+        // Periksa apakah input adalah kategori
+        if (faqData[message.toLowerCase()]) {
+            const category = Object.keys(faqData).find(cat => cat.toLowerCase() === message.toLowerCase());
+            addBotMessage(`❓Apa yang ingin anda ketahui *${category}*:`);
+            showQuestions(category);
+            return;
+        }
+        
+        // Periksa apakah input adalah pertanyaan dari kategori manapun
+        let answered = false;
+        Object.values(faqData).forEach(category => {
+            Object.entries(category).forEach(([question, answer]) => {
+                if (question.toLowerCase() === message) {
+                    addBotMessage(`📌 *Jawaban:*\n${answer}`);
+                    answered = true;
+                }
+            });
+        });
+        
+        // Jika tidak ada jawaban yang cocok, tampilkan tombol CS
+        if (!answered) {
+            addBotMessage("🤔 Saya belum mengenali pesan tersebut. Silakan pilih kategori di bawah ini atau bicara dengan CS kami:");
+            showCategories();
+            // Tampilkan tombol CS
+            csButton.style.display = 'block';
+        }
+    }
+    
+    // Tambahkan pesan dari bot ke chat
+    function addBotMessage(message, saveToHistory = true) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message bot-message';
+        messageDiv.textContent = message.replace(/\*([^*]+)\*/g, '$1'); // Hapus penanda markdown
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Simpan ke history jika diperlukan
+        if (saveToHistory) {
+            saveMessageToHistory('bot', message);
+        }
+    }
+    
+    // Fungsi untuk menambahkan tombol kembali ke bot mode
+    function addBackToBotButton() {
+        // Buat tombol "Kembali ke Bot"
+        const backDiv = document.createElement('div');
+        backDiv.className = 'back-to-bot-button';
+        backDiv.style.textAlign = 'center';
+        backDiv.style.margin = '10px 0';
+        
+        const backButton = document.createElement('button');
+        backButton.className = 'back-to-bot-btn';
+        backButton.textContent = '← Kembali ke Chat Bot';
+        backButton.style.backgroundColor = '#2276d2';
+        backButton.style.color = 'white';
+        backButton.style.border = 'none';
+        backButton.style.borderRadius = '5px';
+        backButton.style.padding = '8px 12px';
+        backButton.style.cursor = 'pointer';
+        
+        backButton.addEventListener('click', function() {
+            switchBackToBot();
+        });
+        
+        backDiv.appendChild(backButton);
+        chatMessages.appendChild(backDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Fungsi untuk beralih kembali ke mode bot
+    function switchBackToBot() {
+        // Beritahu server bahwa pengguna keluar dari mode CS
+        endCsChat();
+        
+        // Ubah mode
+        isCsMode = false;
+        localStorage.setItem('jogjaCareIsCsMode', 'false');
+        
+        // Ubah tampilan
+        document.querySelector('.chat-widget-title').textContent = 'JogjaCare Bot';
+        
+        // Tambahkan pesan konfirmasi
+        addBotMessage("👩‍⚕️ Anda telah kembali ke chat bot. Silahkan pilih kategori:");
+        
+        // Tampilkan kategori
+        showCategories();
+        
+        // Tampilkan kembali tombol CS untuk penggunaan di masa depan
+        csButton.style.display = 'block';
+    }
+    
+    // Tambahkan pesan dari user ke chat
+    function addUserMessage(message, saveToHistory = true) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message user-message';
+        messageDiv.textContent = message;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Simpan ke history jika diperlukan
+        if (saveToHistory) {
+            saveMessageToHistory('user', message);
+        }
+    }
+    
+    // Fungsi-fungsi untuk Chat CS
+    // Mendapatkan atau membuat session ID untuk chat
+    function getChatSessionId() {
+        let sessionId = localStorage.getItem('jogjaCareSessionId');
+        if (!sessionId) {
+            sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('jogjaCareSessionId', sessionId);
+        }
+        return sessionId;
+    }
+    
+    // Memulai sesi chat CS
+    function startCsChat() {
+        const sessionId = getChatSessionId();
+        fetch('/cs-chat/start', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                message: "Pengguna memulai chat dengan CS"
+            })
+        });
+        
+        // Mulai interval untuk memeriksa balasan dari CS
+        checkCSMessages();
+        
+        // Simpan referensi ke interval untuk bisa dihentikan nanti
+        window.csCheckInterval = setInterval(checkCSMessages, 5000);
+    }
+    
+    // Fungsi untuk mengakhiri sesi CS
+    function endCsChat() {
+        const sessionId = getChatSessionId();
+        fetch('/cs-chat/end', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                message: "Pengguna mengakhiri chat dengan CS"
+            })
+        });
+        
+        // Hentikan interval pengecekan
+        if (window.csCheckInterval) {
+            clearInterval(window.csCheckInterval);
+        }
+    }
+    
+    // Kirim pesan ke CS
+    function sendMessageToCS(message) {
+        const sessionId = getChatSessionId();
+        fetch('/cs-chat/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                message: message
+            })
+        });
+    }
+    
+    // Cek pesan baru dari CS
+    function checkCSMessages() {
+        if (!isCsMode) return; // Hanya cek jika dalam mode CS
+        
+        const sessionId = getChatSessionId();
+        fetch(`/cs-chat/check-new?session_id=${sessionId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.messages && data.messages.length > 0) {
+                    data.messages.forEach(msg => {
+                        // Simpan pesan CS yang baru ke history
+                        addBotMessage(msg.message);
+                        
+                        // Tandai pesan sebagai sudah dibaca di localStorage
+                        const readMessages = JSON.parse(localStorage.getItem('jogjaCareReadMessages') || '[]');
+                        readMessages.push(msg.id);
+                        localStorage.setItem('jogjaCareReadMessages', JSON.stringify(readMessages));
+                        
+                        // Jika ada pesan yang mengindikasikan sesi CS selesai
+                        if (msg.message.toLowerCase().includes('sesi chat telah selesai') || 
+                            msg.message.toLowerCase().includes('terima kasih telah menghubungi cs')) {
+                            // Tambahkan tombol untuk kembali ke bot secara otomatis
+                            addBackToBotButton();
+                        }
+                    });
+                }
+            });
+    }
+    
+    // Jika dalam mode CS, mulai pemeriksaan pesan CS
+    if (isCsMode) {
+        checkCSMessages();
+        setInterval(checkCSMessages, 5000);
+    }
+    
+    // Tambahkan fungsi untuk reset history
+    window.resetJogjaCareHistory = function() {
+        localStorage.removeItem('jogjaCareHistory');
+        localStorage.removeItem('jogjaCareIsCsMode');
+        // Opsional: Hapus juga pesan di UI
+        chatMessages.innerHTML = '';
+        // Tampilkan pesan intro dan kategori lagi
+        addBotMessage("👩‍⚕️ Hai! Saya siap bantu cari rumah sakit di sekitar tempat wisata Jogja. Silakan pilih kategori:");
+        showCategories();
+        isCsMode = false;
+        document.querySelector('.chat-widget-title').textContent = 'JogjaCare Bot';
+        csButton.style.display = 'none';
+    };
+});
+
+    
 </script>

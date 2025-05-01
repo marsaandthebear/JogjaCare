@@ -47,4 +47,9 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT'),
     ],
+
+    'deepseek' => [
+        'api_key' => env('DEEPSEEK_API_KEY', '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'),
+        'api_url' => env('DEEPSEEK_API_URL', 'https://api.deepseek.com/v1/chat/completions'),
+    ],
 ];

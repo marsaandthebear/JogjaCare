@@ -1,5 +1,5 @@
-<form method="POST" action="{{ $action_url }}" enctype="multipart/form-data">
-    <div class="row">
+
+<div class="row">
         <div class="col-12 col-sm-4 mb-3">
             <div class="form-group">
                 <?php
@@ -43,6 +43,3 @@
             </div>
         </div>
     </div>
-</form>
-
-<x-library.select2 />

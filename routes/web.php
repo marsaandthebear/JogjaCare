@@ -6,6 +6,9 @@ use App\Livewire\Privacy;
 use App\Livewire\Terms;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BotManController;
+use App\Http\Controllers\Frontend\ChatAIController;
+
+
 
 /*
 *
@@ -159,3 +162,16 @@ Route::post('/contact', [App\Http\Controllers\Frontend\ContactController::class,
 Route::get('/partner', [App\Http\Controllers\Frontend\FrontendController::class, 'partner'])->name('frontend.partner');
 
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+
+// ChatAI Routes
+Route::get('/chatai', [ChatAIController::class, 'index'])
+    ->name('frontend.chatai');
+
+Route::post('/chatai/message', [ChatAIController::class, 'processMessage'])
+    ->name('frontend.chatai.message');
+
+Route::post('/chatai/clear', [ChatAIController::class, 'clearHistory'])
+    ->name('frontend.chatai.clear');
+
+Route::get('/deepseek-chat', [App\Http\Controllers\Frontend\DeepSeekChatController::class, 'index'])
+    ->name('frontend.deepseek-chat');
