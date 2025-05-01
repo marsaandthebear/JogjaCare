@@ -1,11 +1,76 @@
 <nav class="border-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sticky top-0 z-50 transition-all duration-300">
     <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+        <!-- Logo -->
         <a class="flex items-center space-x-3 rtl:space-x-reverse" href="/">
             <img class="h-9" src="{{ asset('img/JOGJACARE-blue.png') }}" alt="{{ app_name() }} Logo" />
         </a>
-        <div class="flex items-center justify-end space-x-1 rtl:space-x-reverse md:order-2 md:space-x-0">
-        <button class="rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-            id="theme-toggle" type="button" onclick="toggleThemeAndReload()">
+        
+        <!-- Mobile menu button -->
+        <button
+            class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+            data-collapse-toggle="navbar-language" type="button" aria-controls="navbar-language"
+            aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M1 1h15M1 7h15M1 13h15" />
+            </svg>
+        </button>
+        
+        <!-- Desktop Navigation Menu -->
+        <div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-language">
+            <ul
+                class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
+                <x-frontend.nav-item :href="route('home')" :active="request()->routeIs('home')">
+                    {{ __('Home') }}
+                </x-frontend.nav-item>
+                <x-frontend.nav-item-dropdown :active="request()->routeIs('frontend.aboutus') || request()->routeIs('frontend.partnership')" title="{{ __('About') }}">
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.aboutus') }}">{{ __('About Us') }}</a>
+                    </div>
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.partner') }}">{{ __('Our Partnership') }}</a>
+                    </div>
+                </x-frontend.nav-item-dropdown>
+                <x-frontend.nav-item-dropdown :active="request()->routeIs('frontend.medicalcares.index') || request()->routeIs('frontend.medicalpoints.index') || request()->routeIs('frontend.medicalcenters.index') || request()->routeIs('frontend.medicalcosts.index') || request()->routeIs('frontend.medicalalters.index')" title="{{ __('Services') }}">
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.medicalcares.index') }}">{{ __('Medical Cares') }}</a>
+                    </div>
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.medicalpoints.index') }}">{{ __('Medical Points') }}</a>
+                    </div>
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.medicalcenters.index') }}">{{ __('Medical Centers') }}</a>
+                    </div>
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.medicalcosts.index') }}">{{ __('Medical Costs') }}</a>
+                    </div>
+                    <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href="{{ route('frontend.medicalalters.index') }}">{{ __('Medical Alternative') }}</a>
+                    </div>
+                </x-frontend.nav-item-dropdown>
+                <x-frontend.nav-item :href="route('frontend.contact')" :active="request()->routeIs('frontend.contact')">
+                    {{ __('Contact') }}
+                </x-frontend.nav-item>
+                <li class="flex items-center">
+                    <a href="{{ route('frontend.deepseek-chat') }}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 {{ Request::is('deepseek-chat') ? 'md:text-blue-700 dark:text-blue-500' : '' }}">
+                        <span class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
+                            </svg>
+                            TanyaAi
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Right side icons and user menu -->
+        <div class="flex items-center space-x-3 md:order-2">
+            <!-- Theme toggle -->
+            <button class="rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                id="theme-toggle" type="button" onclick="toggleThemeAndReload()">
                 <svg class="hidden h-5 w-5" id="theme-toggle-dark-icon" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
@@ -18,6 +83,7 @@
                 </svg>
             </button>
 
+            <!-- Language dropdown -->
             <button
                 class="inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
                 data-dropdown-toggle="language-dropdown-menu" type="button">
@@ -35,7 +101,7 @@
                     {{ strtoupper(app()->currentLocale()) }}
                 </span>
             </button>
-            <!-- Dropdown:language-dropdown-menu -->
+            <!-- Language dropdown menu -->
             <div class="z-50 my-4 hidden list-none divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:bg-gray-700"
                 id="language-dropdown-menu">
                 <ul class="py-2 font-medium" role="none">
@@ -52,40 +118,44 @@
                 </ul>
             </div>
 
+            <!-- Guest: Register/Login -->
             @guest
-                @if (user_registration())
+                <div class="flex items-center">
+                    @if (user_registration())
+                        <a class="inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                            href="{{ route('register') }}">
+                            <svg class="icon icon-tabler icons-tabler-outline icon-tabler-user-bolt me-2"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.267 0 .529 .026 .781 .076" />
+                                <path d="M19 16l-2 3h4l-2 3" />
+                            </svg>
+                            <span class="ms-2 hidden sm:block">
+                                {{ __('Register') }}
+                            </span>
+                        </a>
+                    @endif
                     <a class="inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                        href="{{ route('register') }}">
-                        <svg class="icon icon-tabler icons-tabler-outline icon-tabler-user-bolt me-2"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        href="{{ route('login') }}">
+                        <svg class="icon icon-tabler icons-tabler-outline icon-tabler-login me-2"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.267 0 .529 .026 .781 .076" />
-                            <path d="M19 16l-2 3h4l-2 3" />
+                            <path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                            <path d="M21 12h-13l3 -3" />
+                            <path d="M11 15l-3 -3" />
                         </svg>
                         <span class="ms-2 hidden sm:block">
-                            {{ __('Register') }}
+                            {{ __('Login') }}
                         </span>
                     </a>
-                @endif
-                <a class="inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                    href="{{ route('login') }}">
-                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-login me-2"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                        <path d="M21 12h-13l3 -3" />
-                        <path d="M11 15l-3 -3" />
-                    </svg>
-                    <span class="ms-2 hidden sm:block">
-                        {{ __('Login') }}
-                    </span>
-                </a>
+                </div>
             @endguest
 
+            <!-- Authenticated user menu -->
             @auth
                 <button
                     class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
@@ -95,7 +165,7 @@
                         {{ Auth::user()->last_name }}
                     </span>
                 </button>
-                <!-- Dropdown:user-dropdown-menu -->
+                <!-- User dropdown menu -->
                 <div class="z-50 my-4 hidden list-none divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:bg-gray-700"
                     id="user-dropdown-menu">
                     <ul class="py-2 font-medium" role="none">
@@ -122,123 +192,73 @@
                                     </div>
                                 </a>
                             </li>
-                            @endif
-                            <li>
-                                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    href="{{ route('frontend.users.profile') }}" role="menuitem">
-                                    <div class="inline-flex items-center">
-                                        <svg class="icon icon-tabler icons-tabler-outline icon-tabler-user-bolt me-2"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.267 0 .529 .026 .781 .076" />
-                                            <path d="M19 16l-2 3h4l-2 3" />
-                                        </svg>
-                                        {{ Auth::user()->name }}
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    href="{{ route('frontend.users.profileEdit') }}" role="menuitem">
-                                    <div class="inline-flex items-center">
-                                        <svg class="icon icon-tabler icons-tabler-outline icon-tabler-settings-cog me-2"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M12.003 21c-.732 .001 -1.465 -.438 -1.678 -1.317a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c.886 .215 1.325 .957 1.318 1.694" />
-                                            <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                                            <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M19.001 15.5v1.5" />
-                                            <path d="M19.001 21v1.5" />
-                                            <path d="M22.032 17.25l-1.299 .75" />
-                                            <path d="M17.27 20l-1.3 .75" />
-                                            <path d="M15.97 17.25l1.3 .75" />
-                                            <path d="M20.733 20l1.3 .75" />
-                                        </svg>
-                                        {{ __('Settings') }}
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    href="{{ route('logout') }}" role="menuitem"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <div class="inline-flex items-center">
-                                        <svg class="icon icon-tabler icons-tabler-outline icon-tabler-logout me-2"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                                            <path d="M9 12h12l-3 -3" />
-                                            <path d="M18 15l3 -3" />
-                                        </svg>
-                                        {{ __('Logout') }}
-                                    </div>
-                                </a>
-                            </li>
-                            <form id="logout-form" style="display: none;" action="{{ route('logout') }}" method="POST">
-                                {{ csrf_field() }}
-                            </form>
-                        </ul>
-                    </div>
-                @endauth
-                <button
-                    class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
-                    data-collapse-toggle="navbar-language" type="button" aria-controls="navbar-language"
-                    aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M1 1h15M1 7h15M1 13h15" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-language">
-                <ul
-                    class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
-                    <x-frontend.nav-item :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
-                    </x-frontend.nav-item>
-                    <x-frontend.nav-item-dropdown :active="request()->routeIs('frontend.aboutus') || request()->routeIs('frontend.partnership')" title="{{ __('About') }}">
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.aboutus') }}">{{ __('About Us') }}</a>
-                        </div>
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.partner') }}">{{ __('Our Partnership') }}</a>
-                        </div>
-                    </x-frontend.nav-item-dropdown>
-                    <x-frontend.nav-item-dropdown :active="request()->routeIs('frontend.medicalcares.index') || request()->routeIs('frontend.medicalpoints.index') || request()->routeIs('frontend.medicalcenters.index') || request()->routeIs('frontend.medicalcosts.index') || request()->routeIs('frontend.medicalalters.index')" title="{{ __('Services') }}">
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.medicalcares.index') }}">{{ __('Medical Cares') }}</a>
-                        </div>
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.medicalpoints.index') }}">{{ __('Medical Points') }}</a>
-                        </div>
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.medicalcenters.index') }}">{{ __('Medical Centers') }}</a>
-                        </div>
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.medicalcosts.index') }}">{{ __('Medical Costs') }}</a>
-                        </div>
-                        <div class="px-7 py-4 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            <a href="{{ route('frontend.medicalalters.index') }}">{{ __('Medical Alternative') }}</a>
-                        </div>
-                    </x-frontend.nav-item-dropdown>
-                    <x-frontend.nav-item :href="route('frontend.contact')" :active="request()->routeIs('frontend.contact')">
-                        {{ __('Contact') }}
-                    </x-frontend.nav-item>
-                </ul>
-            </div>
+                        @endcan
+                        <li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                                href="{{ route('frontend.users.profile') }}" role="menuitem">
+                                <div class="inline-flex items-center">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-user-bolt me-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.267 0 .529 .026 .781 .076" />
+                                        <path d="M19 16l-2 3h4l-2 3" />
+                                    </svg>
+                                    {{ Auth::user()->name }}
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                                href="{{ route('frontend.users.profileEdit') }}" role="menuitem">
+                                <div class="inline-flex items-center">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-settings-cog me-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M12.003 21c-.732 .001 -1.465 -.438 -1.678 -1.317a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c.886 .215 1.325 .957 1.318 1.694" />
+                                        <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                        <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M19.001 15.5v1.5" />
+                                        <path d="M19.001 21v1.5" />
+                                        <path d="M22.032 17.25l-1.299 .75" />
+                                        <path d="M17.27 20l-1.3 .75" />
+                                        <path d="M15.97 17.25l1.3 .75" />
+                                        <path d="M20.733 20l1.3 .75" />
+                                    </svg>
+                                    {{ __('Settings') }}
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                                href="{{ route('logout') }}" role="menuitem"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <div class="inline-flex items-center">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-logout me-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                                        <path d="M9 12h12l-3 -3" />
+                                        <path d="M18 15l3 -3" />
+                                    </svg>
+                                    {{ __('Logout') }}
+                                </div>
+                            </a>
+                        </li>
+                        <form id="logout-form" style="display: none;" action="{{ route('logout') }}" method="POST">
+                            {{ csrf_field() }}
+                        </form>
+                    </ul>
+                </div>
+            @endauth
         </div>
-        
     </div>
 </nav>
