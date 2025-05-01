@@ -175,3 +175,5 @@ Route::post('/chatai/clear', [ChatAIController::class, 'clearHistory'])
 
 Route::get('/deepseek-chat', [App\Http\Controllers\Frontend\DeepSeekChatController::class, 'index'])
     ->name('frontend.deepseek-chat');
+
+    

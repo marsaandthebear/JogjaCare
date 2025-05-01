@@ -5,39 +5,42 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    public function register()
+    public function register(): void
     {
-        require_once app_path('Helpers/NotificationHelper.php');
+        //
     }
+
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        /**
+         * Change default string length.
+         *
+         * MariaDB 10.5 allows index keys to be 3072 chars.
+         * MySQL 8.0 appears to be allowing only 1000 chars.
+         */
+        Schema::defaultStringLength(125);
 
-        $this->routes(function () {
-            // Web routes yang menggunakan middleware web group
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
+        /**
+         * Register Event Listeners.
+         */
+        $this->registerEventListeners();
 
-            // API routes
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
+        /**
+         * Implicitly grant "Super Admin" role all permissions
+         * This works in the app by using gate-related functions like auth()->user->can() and @can().
+         */
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('super admin') ? true : null;
         });
     }
 
