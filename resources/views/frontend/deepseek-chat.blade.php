@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer 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',
+                    'Authorization': 'Bearer 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',
                     'HTTP-Referer': window.location.href,
                     'X-Title': 'jogjacare',
                     'Content-Type': 'application/json',
