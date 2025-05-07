@@ -10,7 +10,7 @@
             <h1 class="text-3xl sm:text-4xl mb-4 font-medium text-blue-500 dark:text-white">
                 {{ __($module_title) }}
             </h1>
-            <button id="descriptionBtn" class="bg-gray-200 border-gray-300 text-gray-600 px-2 mb-4 rounded-lg border dark:bg-gray-600 dark:text-white dark:bg-gray-100 dark:border-gray-200">
+            <button id="descriptionBtn" class="bg-gray-200 border-gray-300 text-gray-600 px-2 mb-4 rounded-lg border dark:text-white dark:bg-gray-100 dark:border-gray-200">
                 Show Description
             </button>
             <p class="mb-8 leading-relaxed hidden" id="description">

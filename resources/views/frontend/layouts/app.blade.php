@@ -25,6 +25,20 @@
 
     <!-- Load chat bot styles -->
     @include('frontend.includes.chat-widget-styles')
+    <!-- Google Widget -->
+    {{-- <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {
+                pageLanguage: '{{ config('app.locale') }}',
+                includedLanguages: '{{ implode(',', array_keys(config('app.available_locales'))) }}',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            },
+            'google_translate_element'
+        );
+    }
+</script> --}}
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 
 <body class="bg-pastel-light text-gray-800 dark:bg-pastel-dark dark:text-white">
