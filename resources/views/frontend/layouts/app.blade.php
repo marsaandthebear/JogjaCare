@@ -25,7 +25,8 @@
 
     <!-- Load chat bot styles -->
     @include('frontend.includes.chat-widget-styles')
-    <script type="text/javascript">
+    <!-- Google Widget -->
+    {{-- <script type="text/javascript">
     function googleTranslateElementInit() {
         new google.translate.TranslateElement(
             {
@@ -36,7 +37,7 @@
             'google_translate_element'
         );
     }
-</script>
+</script> --}}
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 

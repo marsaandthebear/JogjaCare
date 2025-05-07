@@ -53,7 +53,15 @@
                 <x-frontend.nav-item :href="route('frontend.contact')" :active="request()->routeIs('frontend.contact')">
                     {{ __('Contact') }}
                 </x-frontend.nav-item>
-                <li class="flex items-center">
+                <x-frontend.nav-item :href="route('frontend.deepseek-chat')" :active="request()->is('deepseek-chat')">
+                    <span class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
+                        </svg>
+                        {{ __('AskAi') }}
+                    </span>
+                </x-frontend.nav-item>
+                {{-- <li class="flex items-center">
                     <a href="{{ route('frontend.deepseek-chat') }}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 {{ Request::is('deepseek-chat') ? 'md:text-blue-700 dark:text-blue-500' : '' }}">
                         <span class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -62,7 +70,7 @@
                             TanyaAi
                         </span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
         
@@ -83,8 +91,8 @@
                 </svg>
             </button>
 
-            {{-- <div class="flex items-center space-x-3 md:order-2"> --}}
-                    <!-- Google Translate Widget -->
+        {{-- <!-- Google Translate Widget -->
+            <div class="flex items-center space-x-3 md:order-2">
                     <div id="google_translate_element" class="hidden md:block text-sm text-gray-500 dark:text-gray-400"></div>
 
                     <!-- Theme toggle -->
@@ -101,10 +109,10 @@
                                 fill-rule="evenodd" clip-rule="evenodd"></path>
                         </svg>
                     </button>
-            {{-- </div> --}}
+            </div> --}}
 
             <!-- Language dropdown -->
-            {{-- <button
+            <button
                 class="inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
                 data-dropdown-toggle="language-dropdown-menu" type="button">
                 <svg class="icon icon-tabler icons-tabler-outline icon-tabler-language"
@@ -136,7 +144,7 @@
                         </li>
                     @endforeach
                 </ul>
-            </div> --}}
+            </div>
 
             
 
