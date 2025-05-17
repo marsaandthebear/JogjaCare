@@ -12,14 +12,14 @@
         <div class="mb-10 sm:grid sm:grid-cols-3 sm:gap-6">
             <div class="sm:col-span-1">
                 <div class="px-4 sm:px-0">
-                    <h3 class="text-xl font-semibold leading-6 text-gray-800 dark:text-gray-200">@lang('Edit Profile')</h3>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    <h3 class="text-xl font-semibold leading-6 text-gray-800 ">@lang('Edit Profile')</h3>
+                    <p class="mt-1 text-sm text-gray-600 ">
                         @lang('This information will be displayed publicly so be careful what you share.')
                     </p>
                     <div class="pt-4 text-center">
                         <a href='{{ route('frontend.users.profile') }}'>
                             <div
-                                class="w-full rounded border-2 border-gray-900 px-6 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none dark:border-gray-500">
+                                class="w-full rounded border-2 border-gray-900 px-6 py-2 text-sm font-semibold text-gray-800 transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none dark:border-gray-500">
                                 @lang(' View Profile')
                             </div>
                         </a>
@@ -28,7 +28,7 @@
             </div>
             <div class="mt-5 sm:col-span-2 sm:mt-0">
             {{ html()->modelForm($user, 'PATCH', route('frontend.users.profileUpdate'))->class('form-horizontal')->acceptsFiles()->open() }}
-                <div class="mb-8 rounded-lg border bg-white p-6 shadow-lg dark:bg-gray-100">
+                <div class="mb-8 rounded-lg border bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-900 transition-all duration-300">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6">
                             <?php
@@ -37,16 +37,14 @@
                             $field_placeholder = $field_lable;
                             $required = 'required';
                             ?>
-                            {{ html()->label($field_lable, $field_name)->class('block-inline text-sm font-medium text-gray-700') }}
-                            {!! field_required($required) !!}
-                            {{ html()->text($field_name)->placeholder($field_placeholder)->class('mt-1 border-gray-300 w-full py-2 px-4 bg-white dark:bg-gray-100 text-gray-700 placeholder-gray-300 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent')->attributes(["$required"]) }}
+                            {{ html()->label($field_lable, $field_name)->class('block-inline text-sm font-medium') }}
+                            {{ html()->text($field_name)->placeholder($field_placeholder)->class('mt-1 border-gray-300 w-full py-2 px-4 bg-white dark:bg-gray-100 text-gray-800 placeholder-gray-300 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent')->attributes(["$required"]) }}
                         </div>
 
                         <div class="col-span-6">
-                            <label class="block-inline text-sm font-medium text-gray-700" for="email">Email</label>
-                            <span class="text-danger text-red-600">*</span>
+                            <label class="block-inline text-sm font-medium" for="email">Email</label>
                             <input
-                                class="mt-1 w-full rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 placeholder-gray-300 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                class="mt-1 w-full rounded border border-gray-300 bg-gray-200 dark:bg-gray-400 px-4 py-2 text-gray-800 placeholder-gray-300 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
                                 id="email" type="email" value="{{ $user->email }}" disabled>
                         </div>
 
@@ -57,21 +55,16 @@
                             $field_placeholder = $field_lable;
                             $required = 'required';
                             ?>
-                            {{ html()->label($field_lable, $field_name)->class('block-inline text-sm font-medium text-gray-700') }}
-                            {!! field_required($required) !!}
-                            {{ html()->text($field_name)->placeholder($field_placeholder)->class('mt-1 border-gray-300 w-full py-2 px-4 bg-white dark:bg-gray-100 text-gray-700 placeholder-gray-300 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent')->attributes(["$required"]) }}
+                            {{ html()->label($field_lable, $field_name)->class('block-inline text-sm font-medium') }}
+                            {{ html()->text($field_name)->placeholder($field_placeholder)->class('mt-1 border-gray-300 w-full py-2 px-4 bg-white dark:bg-gray-100 text-gray-800 placeholder-gray-300 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent')->attributes(["$required"]) }}
                         </div>
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label class="block text-sm font-semibold">
                                 Photo
                             </label>
-                            <span class="mt-1 inline-block h-24 w-24 overflow-hidden rounded bg-gray-100 object-cover">
-                                <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}">
-                                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
+                            <span class="mt-1 inline-block h-24 w-24 overflow-hidden rounded-full bg-gray-100">
+                                <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                             </span>
                         </div>
 
@@ -86,9 +79,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4 bg-gray-50 px-4 text-end sm:px-6">
+                    <div class="mt-4">
                         <button
-                            class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                             type="submit">
                             Save
                         </button>
