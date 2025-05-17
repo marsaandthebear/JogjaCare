@@ -29,9 +29,9 @@
                         <tbody>
                             <tr>
                                 <th>Title</th>
-                                <th>
-                                    {{ $module_name_singular->data['title'] }}
-                                </th>
+                                <td>
+                                    {{ $module_name_singular->data['title'] ?? '' }}
+                                </td>
                             </tr>
                             <tr>
                                 <th>Text</th>
@@ -59,10 +59,20 @@
                             <tr>
                                 <th>Module</th>
                                 <td>
-                                    {{ $module_name_singular->data['module'] }}
+                                    {{ $module_name_singular->data['module'] ?? '' }}
                                 </td>
                             </tr>
                             @endif
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    @if($module_name_singular->read_at)
+                                        <span class="badge bg-success">Read at: {{ $module_name_singular->read_at->diffForHumans() }}</span>
+                                    @else
+                                        <span class="badge bg-warning">Unread</span>
+                                    @endif
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

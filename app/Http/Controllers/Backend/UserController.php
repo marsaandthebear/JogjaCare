@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
+
 class UserController extends Controller
 {
     use Authorizable;
@@ -209,70 +210,111 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-    {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
+{
+    $module_title = $this->module_title;
+    $module_name = $this->module_name;
+    $module_path = $this->module_path;
+    $module_icon = $this->module_icon;
+    $module_model = $this->module_model;
+    $module_name_singular = Str::singular($module_name);
 
-        $module_action = 'Details';
+    $module_action = 'Details';
 
-        $validated_data = $request->validate([
-            'first_name' => 'required|min:3|max:191',
-            'last_name' => 'required|min:3|max:191',
-            'email' => 'required|email:rfc,dns|regex:/(.+)@(.+)\.(.+)/i|max:191|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'roles' => 'nullable|array',
-            'permissions' => 'nullable|array',
-        ]);
+    $validated_data = $request->validate([
+        'first_name' => 'required|min:3|max:191',
+        'last_name' => 'required|min:3|max:191',
+        'email' => 'required|email:rfc,dns|regex:/(.+)@(.+)\.(.+)/i|max:191|unique:users',
+        'password' => 'required|confirmed|min:6',
+        'roles' => 'nullable|array',
+        'permissions' => 'nullable|array',
+    ]);
 
-        $data_array = Arr::except($validated_data, ['_token', 'roles', 'permissions', 'password_confirmation']);
+    $data_array = Arr::except($validated_data, ['_token', 'roles', 'permissions', 'password_confirmation']);
 
-        $data_array['name'] = $request->first_name.' '.$request->last_name;
-        $data_array['password'] = Hash::make($request->password);
+    $data_array['name'] = $request->first_name.' '.$request->last_name;
+    $data_array['password'] = Hash::make($request->password);
+    
+    // Generate username otomatis
+    $data_array['username'] = $this->generateUniqueUsername($request->first_name, $request->last_name);
 
-        if ($request->confirmed === 1) {
-            $data_array = Arr::add($data_array, 'email_verified_at', Carbon::now());
-        } else {
-            $data_array = Arr::add($data_array, 'email_verified_at', null);
-        }
-
-        // Create a User
-        $$module_name_singular = User::create($data_array);
-
-        // Sync Roles
-        $$module_name_singular->syncRoles(isset($validated_data['roles']) ? $validated_data['roles'] : []);
-
-        // Sync Permissions
-        $$module_name_singular->syncPermissions(isset($validated_data['permissions']) ? $validated_data['permissions'] : []);
-
-        // Set Username
-        $id = $$module_name_singular->id;
-        $username = config('app.initial_username') + $id;
-        $$module_name_singular->username = $username;
-        $$module_name_singular->save();
-
-        event(new UserCreated($$module_name_singular));
-
-        flash("New '".Str::singular($module_title)."' Created")->success()->important();
-
-        if ($request->email_credentials === 1) {
-            $data = [
-                'password' => $request->password,
-            ];
-            $$module_name_singular->notify(new UserAccountCreated($data));
-
-            flash('Account Credentials Sent to User.')->success()->important();
-        }
-
-        Artisan::call('cache:clear');
-
-        logUserAccess($module_title.' '.$module_action);
-
-        return redirect("admin/{$module_name}");
+    if ($request->confirmed === 1) {
+        $data_array = Arr::add($data_array, 'email_verified_at', Carbon::now());
+    } else {
+        $data_array = Arr::add($data_array, 'email_verified_at', null);
     }
+
+    // Create a User
+    $$module_name_singular = User::create($data_array);
+
+    // Sync Roles
+    $$module_name_singular->syncRoles(isset($validated_data['roles']) ? $validated_data['roles'] : []);
+
+    // Sync Permissions
+    $$module_name_singular->syncPermissions(isset($validated_data['permissions']) ? $validated_data['permissions'] : []);
+
+    // Set Username sudah tidak diperlukan karena kita sudah menetapkannya di atas
+    // Tapi jika ingin sebagai fallback, bisa dipertahankan
+    // if (empty($$module_name_singular->username)) {
+    //     $id = $$module_name_singular->id;
+    //     $username = config('app.initial_username') + $id;
+    //     $$module_name_singular->username = $username;
+    //     $$module_name_singular->save();
+    // }
+
+    event(new UserCreated($$module_name_singular));
+
+    flash("New '".Str::singular($module_title)."' Created")->success()->important();
+
+    if ($request->email_credentials === 1) {
+        $data = [
+            'password' => $request->password,
+        ];
+        $$module_name_singular->notify(new UserAccountCreated($data));
+
+        flash('Account Credentials Sent to User.')->success()->important();
+    }
+
+    Artisan::call('cache:clear');
+
+    logUserAccess($module_title.' '.$module_action);
+
+    return redirect("admin/{$module_name}");
+}
+
+/**
+ * Generate unique username based on first name and last name
+ *
+ * @param string $firstName
+ * @param string $lastName
+ * @return string
+ */
+private function generateUniqueUsername($firstName, $lastName)
+{
+    // Bersihkan nama - buang karakter non-alphanumeric dan convert ke huruf kecil
+    $firstName = preg_replace('/[^a-zA-Z0-9]/', '', Str::lower($firstName));
+    $lastName = preg_replace('/[^a-zA-Z0-9]/', '', Str::lower($lastName));
+    
+    // Buat base username
+    $baseUsername = $firstName . ($lastName ? '.' . $lastName : '');
+    
+    // Jika username kosong (karena nama hanya berisi karakter khusus),
+    // gunakan "user" sebagai base
+    if (empty($baseUsername)) {
+        $baseUsername = 'user';
+    }
+    
+    // Periksa apakah username sudah ada
+    $username = $baseUsername;
+    $counter = 1;
+    
+    // Selama username sudah digunakan, tambahkan angka di belakangnya
+    while (User::where('username', $username)->exists()) {
+        $username = $baseUsername . $counter;
+        $counter++;
+    }
+    
+    return $username;
+}
 
     /**
      * Display the specified resource.
