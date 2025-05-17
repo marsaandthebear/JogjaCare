@@ -8,10 +8,10 @@
     <div class="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-10 sm:grid-cols-3 sm:px-6">
         <div class="col-span-1">
             <div class="mb-8 text-center md:mb-0">
-                <img class="mx-auto -mb-24 h-48 w-48 rounded-lg object-cover"
+                <img class="mx-auto -mb-24 h-48 w-48 rounded-full object-cover bg-gray-100"
                     src="{{ asset($$module_name_singular?->avatar) }}" alt="{{ $$module_name_singular?->name }}" />
-                <div class="rounded-lg bg-white px-8 pb-10 pt-32 text-gray-400 shadow-lg dark:bg-gray-100">
-                    <h3 class="font-title mb-3 text-xl text-gray-800">
+                <div class="rounded-lg bg-white px-8 pb-10 pt-32 shadow-lg dark:border-gray-700 dark:bg-gray-900 transition-all duration-300">
+                    <h3 class="font-title mb-3 text-xl">
                         {{ $$module_name_singular?->name }}
                     </h3>
                     <p>
@@ -77,7 +77,7 @@
                             <div class="mt-8">
                                 <a href='{{ route('frontend.users.profileEdit') }}'>
                                     <div
-                                        class="w-full rounded border-2 border-gray-900 px-6 py-2 text-sm text-gray-500 transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none">
+                                        class="w-full rounded border-2 border-gray-900 dark:border-gray-400 px-6 py-2 text-sm transition duration-200 hover:bg-gray-800 hover:text-white focus:outline-none">
                                         Edit Profile
                                     </div>
                                 </a>
@@ -88,7 +88,7 @@
                             <div class="mt-8">
                                 <a href="{{ route('frontend.users.changePassword') }}">
                                     <div
-                                        class="w-full rounded border-2 border-gray-900 px-6 py-2 text-sm text-gray-500 transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none">
+                                        class="w-full rounded border-2 border-gray-800 dark:border-gray-400 px-6 py-2 text-sm transition duration-200 hover:bg-gray-800 hover:text-white focus:outline-none">
                                         Change Password
                                     </div>
                                 </a>
@@ -101,7 +101,7 @@
             </div>
         </div>
         <div class="col-span-2">
-            <div class="mb-8 rounded-lg border bg-white p-6 shadow-lg dark:bg-gray-100">
+            <div class="mb-8 rounded-lg border bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-900 transition-all duration-300">
                 <h3 class="text-xl font-semibold">
                     Profile
                 </h3>

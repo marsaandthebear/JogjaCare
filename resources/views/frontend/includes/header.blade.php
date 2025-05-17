@@ -190,7 +190,7 @@
                 <button
                     class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
                     data-dropdown-toggle="user-dropdown-menu" type="button">
-                    <img class="h-9 rounded-md" src="{{ asset(Auth::user()->avatar) }}" alt="">
+                    <img class="h-9 w-9 rounded-full object-cover bg-gray-100" src="{{ asset(Auth::user()->avatar) }}" alt="">
                     <span class="ms-2 hidden sm:block">
                         {{ Auth::user()->last_name }}
                     </span>
