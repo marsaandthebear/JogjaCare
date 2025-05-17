@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->currentLocale()) }}" dir="{{ language_direction() }}">
-    
-
-<head>
+    <head>
     <meta charset="utf-8" />
     <link href="{{ asset('img/favicon.png') }}" rel="apple-touch-icon" sizes="76x76">
     <link type="image/png" href="{{ asset('img/favicon.png') }}" rel="icon">
@@ -39,7 +37,6 @@
         );
     }
 </script> --}}
-
 </head>
 
 <body class="bg-pastel-light text-gray-800 dark:bg-pastel-dark dark:text-white">
