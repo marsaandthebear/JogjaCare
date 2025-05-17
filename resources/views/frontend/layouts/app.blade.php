@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->currentLocale()) }}" dir="{{ language_direction() }}">
+    
 
 <head>
     <meta charset="utf-8" />
@@ -38,7 +39,7 @@
         );
     }
 </script> --}}
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </head>
 
 <body class="bg-pastel-light text-gray-800 dark:bg-pastel-dark dark:text-white">
