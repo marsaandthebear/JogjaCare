@@ -349,7 +349,9 @@
         transition: all 0.2s;
     }
 
-    .question-item:hover {
+    .question-item:hover,
+    .category-item:hover,
+    .chat-option:hover {
         background-color: #f8f9fd;
         border-color: #8E54E9;
         transform: translateY(-2px);
@@ -360,7 +362,7 @@
         margin-bottom: 12px;
         padding: 8px 14px;
         background-color: #f0f2fa;
-        border-radius: 20px;
+        border-radius: 6px;
         cursor: pointer;
         font-size: 13px;
         transition: all 0.2s;
@@ -499,6 +501,76 @@
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-5px); }
     }
+
+    /* Dark Mode */
+    .dark .chat-window,
+    .dark .chat-options {
+        background-color: #1f2937;
+        color: #fff;
+    }
+
+    .dark .chat-header {
+        background-color: #111827;
+        color: #fff;
+    }
+
+    .dark .chat-option,
+    .dark .question-item,
+    .dark .category-item {
+        border-bottom: 1px solid #374151;
+    }
+    
+    .dark .chat-option-icon,
+    .dark .chat-option div {
+        color: #fff;
+    }
+
+    .dark .chat-footer,
+    .dark .chat-input {
+        background-color: #1f2937;
+        color: #fff;
+        border-color: #374151;
+    }
+
+    .dark .chat-input::placeholder {
+        color: #9ca3af;
+    }
+
+    .dark .chat-body {
+        background-color: #1f2937;
+        color: #fff;
+    }
+
+    .dark .chat-option:hover,
+    .dark .category-item:hover,
+    .dark .question-item:hover,
+    .dark .back-button:hover {
+        background-color: #9ca3af;
+    }
+
+    .dark .bot-message {
+    background-color: #9ca3af;
+    color: #1f2937;
+    }
+
+    .dark .back-button {
+    background-color: #9ca3af;
+    color: #1f2937;
+    border: #1f2937;
+    }
+
+    .dark .welcome-option {
+        background-color: #374151;
+        color: #fff;
+        border: 1px solid #4b5563;
+    }
+    .dark .welcome-option:hover {
+        background-color: #4b5563;
+        border-color: #6b7280;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
 </style>
 
 <!-- HTML Structure -->

@@ -41,7 +41,7 @@
 
     @include('frontend.includes.header')
 
-    <main class="bg-pastel-card dark:bg-pastel-darkCard min-h-screen transition-colors duration-300">
+    <main class="dark:bg-gray-700 bg-pastel-card dark:bg-pastel-darkCard min-h-screen transition-colors duration-300">
         @yield('content')
     </main>
 
