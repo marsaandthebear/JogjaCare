@@ -52,10 +52,6 @@
         align-items: center;
     }
 
-    .chat-option:hover {
-        background-color: #f5f8ff;
-    }
-
     .chat-option-icon {
         margin-right: 10px;
         width: 20px;
@@ -162,10 +158,6 @@
         transition: background-color 0.2s;
     }
 
-    .category-item:hover {
-        background-color: #f5f8ff;
-    }
-
     .question-list {
         list-style: none;
         padding: 0;
@@ -179,7 +171,9 @@
         transition: background-color 0.2s;
     }
 
-    .question-item:hover {
+    .question-item:hover,
+    .category-item:hover,
+    .chat-option:hover {
         background-color: #f5f8ff;
     }
 
@@ -188,7 +182,7 @@
         margin-bottom: 10px;
         padding: 5px 10px;
         background-color: #f0f0f0;
-        border-radius: 15px;
+        border-radius: 8px;
         cursor: pointer;
     }
 
@@ -220,6 +214,63 @@
         0% { transform: translateY(0); }
         50% { transform: translateY(-5px); }
         100% { transform: translateY(0); }
+    }
+
+    /* Dark Mode */
+    .dark .chat-window,
+    .dark .chat-options {
+        background-color: #1f2937;
+        color: #fff;
+    }
+
+    .dark .chat-header {
+        background-color: #111827;
+        color: #fff;
+    }
+
+    .dark .chat-option,
+    .dark .question-item,
+    .dark .category-item {
+        border-bottom: 1px solid #374151;
+    }
+    
+    .dark .chat-option-icon,
+    .dark .chat-option div {
+        color: #fff;
+    }
+
+    .dark .chat-footer,
+    .dark .chat-input {
+        background-color: #1f2937;
+        color: #fff;
+        border-color: #374151;
+    }
+
+    .dark .chat-input::placeholder {
+        color: #9ca3af;
+    }
+
+    .dark .chat-body {
+        background-color: #1f2937;
+        color: #fff;
+    }
+
+    .dark .chat-option:hover,
+    .dark .category-item:hover,
+    .dark .question-item:hover,
+    .dark .back-button:hover {
+        background-color: #374151;
+    }
+
+    .dark .bot-message {
+    background-color: #9ca3af;
+    color: #1f2937;
+    }
+
+    .dark .back-button {
+    background-color: #9ca3af;
+    color: #1f2937;
+    border: #1f2937;
     }
 </style>
 
