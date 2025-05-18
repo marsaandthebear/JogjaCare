@@ -177,3 +177,5 @@ Route::get('/deepseek-chat', [App\Http\Controllers\Frontend\DeepSeekChatControll
     ->name('frontend.deepseek-chat');
 
     
+    Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotManController@handle');
+    Route::get('/botman/tinker', 'App\Http\Controllers\BotManController@tinker');
