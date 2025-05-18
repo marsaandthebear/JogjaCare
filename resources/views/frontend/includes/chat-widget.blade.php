@@ -362,7 +362,7 @@
         margin-bottom: 12px;
         padding: 8px 14px;
         background-color: #f0f2fa;
-        border-radius: 20px;
+        border-radius: 6px;
         cursor: pointer;
         font-size: 13px;
         transition: all 0.2s;
@@ -545,7 +545,7 @@
     .dark .category-item:hover,
     .dark .question-item:hover,
     .dark .back-button:hover {
-        background-color: #374151;
+        background-color: #9ca3af;
     }
 
     .dark .bot-message {
@@ -558,6 +558,19 @@
     color: #1f2937;
     border: #1f2937;
     }
+
+    .dark .welcome-option {
+        background-color: #374151;
+        color: #fff;
+        border: 1px solid #4b5563;
+    }
+    .dark .welcome-option:hover {
+        background-color: #4b5563;
+        border-color: #6b7280;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
 </style>
 
 <!-- HTML Structure -->
