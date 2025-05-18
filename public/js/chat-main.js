@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let currentChatMode = null;
     
-    // Toggle chat options menu
+    // Toggle welcome screen
     chatBubble.addEventListener('click', function() {
         // If chat window is open, close it instead of showing options
         if (chatWindow.style.display === 'flex') {
@@ -20,12 +20,113 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if (chatOptions.style.display === 'block') {
-            chatOptions.style.display = 'none';
-        } else {
-            chatOptions.style.display = 'block';
-        }
+        // Show welcome screen with robot and options
+        showWelcomeScreen();
     });
+    
+    // Function to display the welcome screen with robot and options
+    function showWelcomeScreen() {
+        // Update the chat header
+        document.getElementById('chatHeader').innerHTML = 'JogjaCare Assistant <div class="chat-close" id="chatClose">×</div>';
+        
+        // Clear chat body and add welcome content
+        const chatBody = document.getElementById('chatBody');
+        chatBody.innerHTML = `
+            <div class="welcome-container">
+                <div class="welcome-robot">
+                    <svg class="robot-icon-large" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="80" height="80">
+                        <!-- Robot Head -->
+                        <circle class="robot-head" cx="12" cy="10" r="7" fill="#4776E6" />
+                        
+                        <!-- Robot Eyes -->
+                        <circle class="robot-eye" cx="9.5" cy="8.5" r="1.2" fill="white" />
+                        <circle class="robot-eye" cx="14.5" cy="8.5" r="1.2" fill="white" />
+                        
+                        <!-- Robot Ears/Antenna -->
+                        <circle class="robot-ear" cx="5" cy="10" r="1.2" fill="#8E54E9" />
+                        <circle class="robot-ear" cx="19" cy="10" r="1.2" fill="#8E54E9" />
+                        
+                        <!-- Robot Medical Mask -->
+                        <path class="robot-mask" d="M8,11 C8,11 10,13 12,13 C14,13 16,11 16,11 L16,14 C16,14 14,16 12,16 C10,16 8,14 8,14 Z" fill="#a3d4ff" />
+                        <path class="robot-mask-strap" d="M8,11 C8,11 7,11 6,10 M16,11 C16,11 17,11 18,10" stroke="white" stroke-width="0.7" fill="none" />
+                        
+                        <!-- Robot Body -->
+                        <path class="robot-body" d="M9,17 L15,17 L15,22 L9,22 Z" fill="#4776E6" />
+                        <circle class="robot-button" cx="12" cy="19.5" r="1" fill="white" />
+                        
+                        <!-- Robot Arms -->
+                        <path class="robot-arm" d="M9,18 L5,20" stroke="#8E54E9" stroke-width="1.5" stroke-linecap="round" />
+                        <path class="robot-arm" d="M15,18 L19,20" stroke="#8E54E9" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div class="welcome-title">Chat Bot</div>
+                <div class="welcome-subtitle">How can I help you today?</div>
+                
+                <div class="welcome-options">
+                    <div class="welcome-option" id="welcomeFaqBot">
+                        <div class="welcome-option-icon">🤖</div>
+                        <div>FAQ Bot</div>
+                    </div>
+                    <div class="welcome-option" id="welcomeCustomerService">
+                        <div class="welcome-option-icon">👨‍💼</div>
+                        <div>Customer Service</div>
+                    </div>
+                    <div class="welcome-option" id="welcomeAiChat">
+                        <div class="welcome-option-icon">🧠</div>
+                        <div>AI Assistant</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Add event listeners to the welcome options
+        document.getElementById('welcomeFaqBot').addEventListener('click', function() {
+            initializeFaqBot();
+            currentChatMode = 'faq';
+            
+            // Update header
+            document.getElementById('chatHeader').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> &nbsp;JogjaCare FAQ Bot <div class="chat-close" id="chatClose">×</div>';
+            
+            // Rebind close button
+            document.getElementById('chatClose').addEventListener('click', function() {
+                chatWindow.style.display = 'none';
+            });
+        });
+        
+        document.getElementById('welcomeCustomerService').addEventListener('click', function() {
+            initializeCustomerService();
+            currentChatMode = 'cs';
+            
+            // Update header
+            document.getElementById('chatHeader').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> &nbsp;Customer Service <div class="chat-close" id="chatClose">×</div>';
+            
+            // Rebind close button
+            document.getElementById('chatClose').addEventListener('click', function() {
+                chatWindow.style.display = 'none';
+            });
+        });
+        
+        document.getElementById('welcomeAiChat').addEventListener('click', function() {
+            initializeAiChat();
+            currentChatMode = 'ai';
+            
+            // Update header
+            document.getElementById('chatHeader').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> &nbsp;AI Assistant <div class="chat-close" id="chatClose">×</div>';
+            
+            // Rebind close button
+            document.getElementById('chatClose').addEventListener('click', function() {
+                chatWindow.style.display = 'none';
+            });
+        });
+        
+        // Rebind close button
+        document.getElementById('chatClose').addEventListener('click', function() {
+            chatWindow.style.display = 'none';
+        });
+        
+        // Show chat window
+        chatWindow.style.display = 'flex';
+    }
     
     // Close button for chat window
     chatClose.addEventListener('click', function() {
@@ -39,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentChatMode = 'faq';
         
         // Update header
-        document.getElementById('chatHeader').innerHTML = 'JogjaCare FAQ Bot <div class="chat-close" id="chatClose">×</div>';
+        document.getElementById('chatHeader').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> &nbsp;JogjaCare FAQ Bot <div class="chat-close" id="chatClose">×</div>';
         
         // Rebind close button
         document.getElementById('chatClose').addEventListener('click', function() {
@@ -57,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentChatMode = 'cs';
         
         // Update header
-        document.getElementById('chatHeader').innerHTML = 'Customer Service <div class="chat-close" id="chatClose">×</div>';
+        document.getElementById('chatHeader').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> &nbsp;Customer Service <div class="chat-close" id="chatClose">×</div>';
         
         // Rebind close button
         document.getElementById('chatClose').addEventListener('click', function() {
@@ -75,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentChatMode = 'ai';
         
         // Update header
-        document.getElementById('chatHeader').innerHTML = 'AI Assistant <div class="chat-close" id="chatClose">×</div>';
+        document.getElementById('chatHeader').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> &nbsp;AI Assistant <div class="chat-close" id="chatClose">×</div>';
         
         // Rebind close button
         document.getElementById('chatClose').addEventListener('click', function() {
@@ -108,6 +209,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear input
         chatInput.value = '';
+        
+        // Focus on input after sending
+        chatInput.focus();
     });
     
     // Handle enter key in input
@@ -120,10 +224,57 @@ document.addEventListener('DOMContentLoaded', function() {
     // Helper functions for handling messages across all chat types
     window.addMessage = function(type, content) {
         const chatBody = document.getElementById('chatBody');
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
+        
+        // Create message wrapper with avatar and message
+        const messageWrapper = document.createElement('div');
+        messageWrapper.className = `message-wrapper ${type === 'user' ? 'user-wrapper' : 'bot-wrapper'}`;
+        
+        // Create avatar element
+        const avatar = document.createElement('div');
+        avatar.className = `message-avatar ${type === 'user' ? 'user-avatar' : 'bot-avatar'}`;
+        
+        // Set avatar content based on type
+        if (type === 'user') {
+            avatar.innerHTML = `
+                <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                    <circle cx="18" cy="18" r="18" fill="#e4e7f2"/>
+                    <path d="M18,10.5 C19.6569,10.5 21,11.8431 21,13.5 C21,15.1569 19.6569,16.5 18,16.5 C16.3431,16.5 15,15.1569 15,13.5 C15,11.8431 16.3431,10.5 18,10.5 Z" fill="#8E54E9"/>
+                    <path d="M24,25.5 C24,21.9101 21.3137,19 18,19 C14.6863,19 12,21.9101 12,25.5 L24,25.5 Z" fill="#8E54E9"/>
+                </svg>
+            `;
+        } else {
+            // Bot avatar with robot icon
+            avatar.innerHTML = `
+                <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                    <circle cx="18" cy="18" r="18" fill="#e4e7f2"/>
+                    <circle cx="18" cy="14" r="6" fill="#4776E6"/>
+                    <circle cx="15" cy="13" r="1.5" fill="white"/>
+                    <circle cx="21" cy="13" r="1.5" fill="white"/>
+                    <path d="M14,17 C14,17 16,19 18,19 C20,19 22,17 22,17" stroke="white" stroke-width="1.5" fill="none"/>
+                    <rect x="13" y="20" width="10" height="8" rx="2" fill="#4776E6"/>
+                    <circle cx="18" cy="24" r="1" fill="white"/>
+                </svg>
+            `;
+        }
+        
+        // Create message element
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type === 'user' ? 'user-message' : 'bot-message'}`;
         messageDiv.innerHTML = content;
-        chatBody.appendChild(messageDiv);
+        
+        // Assemble message
+        if (type === 'user') {
+            messageWrapper.appendChild(messageDiv);
+            messageWrapper.appendChild(avatar);
+        } else {
+            messageWrapper.appendChild(avatar);
+            messageWrapper.appendChild(messageDiv);
+        }
+        
+        messageContainer.appendChild(messageWrapper);
+        chatBody.appendChild(messageContainer);
         
         // Scroll to bottom
         chatBody.scrollTop = chatBody.scrollHeight;
@@ -131,20 +282,49 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.showTypingIndicator = function() {
         const chatBody = document.getElementById('chatBody');
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
+        
+        // Create message wrapper
+        const messageWrapper = document.createElement('div');
+        messageWrapper.className = 'message-wrapper bot-wrapper';
+        
+        // Create avatar element
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar bot-avatar';
+        avatar.innerHTML = `
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                <circle cx="18" cy="18" r="18" fill="#e4e7f2"/>
+                <circle cx="18" cy="14" r="6" fill="#4776E6"/>
+                <circle cx="15" cy="13" r="1.5" fill="white"/>
+                <circle cx="21" cy="13" r="1.5" fill="white"/>
+                <path d="M14,17 C14,17 16,19 18,19 C20,19 22,17 22,17" stroke="white" stroke-width="1.5" fill="none"/>
+                <rect x="13" y="20" width="10" height="8" rx="2" fill="#4776E6"/>
+                <circle cx="18" cy="24" r="1" fill="white"/>
+            </svg>
+        `;
+        
+        // Create typing indicator
         const indicatorDiv = document.createElement('div');
         indicatorDiv.className = 'typing-indicator bot-message';
         indicatorDiv.id = 'typingIndicator';
         indicatorDiv.innerHTML = '<span></span><span></span><span></span>';
-        chatBody.appendChild(indicatorDiv);
+        
+        // Assemble message
+        messageWrapper.appendChild(avatar);
+        messageWrapper.appendChild(indicatorDiv);
+        messageContainer.appendChild(messageWrapper);
+        chatBody.appendChild(messageContainer);
         
         // Scroll to bottom
         chatBody.scrollTop = chatBody.scrollHeight;
     };
     
     window.hideTypingIndicator = function() {
-        const indicator = document.getElementById('typingIndicator');
-        if (indicator) {
-            indicator.remove();
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+            // Remove the entire message container
+            typingIndicator.closest('.message-container').remove();
         }
     };
     
