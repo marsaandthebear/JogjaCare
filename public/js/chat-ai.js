@@ -37,7 +37,7 @@ async function handleAiChatMessage(message) {
         const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer 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',
+                'Authorization': 'Bearer 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',
                 'HTTP-Referer': window.location.href,
                 'X-Title': 'jogjacare',
                 'Content-Type': 'application/json',
