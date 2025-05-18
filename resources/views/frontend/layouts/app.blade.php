@@ -22,8 +22,6 @@
     @stack('after-styles')
     <x-google-analytics />
 
-    <!-- Load chat bot styles -->
-    @include('frontend.includes.chat-widget-styles')
     <!-- Google Widget -->
     {{-- <script type="text/javascript">
     function googleTranslateElementInit() {
