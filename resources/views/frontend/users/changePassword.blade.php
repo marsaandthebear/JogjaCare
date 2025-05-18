@@ -15,15 +15,15 @@
         <div class="mb-10 md:grid md:grid-cols-3 md:gap-6">
             <div class="sm:col-span-1">
                 <div class="px-4 sm:px-0">
-                    <h3 class="text-xl font-semibold leading-6 text-gray-800">@lang('Change Password')</h3>
-                    <p class="mt-1 text-sm text-gray-600">
+                    <h3 class="text-xl font-semibold leading-6 text-gray-800 dark:text-white">@lang('Change Password')</h3>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                         @lang('Use the following form to change your account password!')
                     </p>
 
                     <div class="pt-4 text-center">
                         <a href='{{ route('frontend.users.profile') }}'>
                             <div
-                                class="w-full rounded border-2 border-gray-900 px-6 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none dark:border-gray-500">
+                                class="w-full rounded border-2 border-gray-900 px-6 py-2 text-sm font-semibold transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none dark:border-gray-400 dark:text-gray-200">
                                 @lang(' View Profile')
                             </div>
                         </a>
@@ -72,19 +72,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 sm:gap-6">
                 <div class="md:col-span-1">
                     <div class="px-4 sm:px-0">
-                        <h3 class="text-lg font-medium leading-6 text-gray-800">@lang('Edit Profile')</h3>
-                        <p class="mt-1 text-sm text-gray-600">
+                        <h3 class="text-lg font-medium leading-6 dark:text-white">@lang('Edit Profile')</h3>
+                        <p class="mt-1 text-sm dark:text-gray-400">
                             @lang('Update account information.')
                         </p>
                     </div>
                 </div>
                 <div class="mt-5 sm:col-span-2 md:mt-0">
-                    <div class="mb-8 rounded-lg border bg-white p-6 shadow-lg dark:bg-gray-900 transition-all duration-300">
+                    <div class="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900 transition-all duration-300">
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 text-center">
                                 <a href="{{ route('frontend.users.profileEdit') }}">
                                     <div
-                                        class="w-full rounded border-2 border-gray-900 dark:border-gray-200 px-6 py-2 text-sm font-semibold transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none">
+                                        class="w-full rounded border-2 border-gray-900 dark:border-gray-400 px-6 py-2 text-sm font-semibold transition duration-200 ease-in hover:bg-gray-800 hover:text-white focus:outline-none">
                                         @lang('Edit Profile')
                                     </div>
                                 </a>

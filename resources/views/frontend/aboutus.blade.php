@@ -35,7 +35,7 @@
             JogjaCare's uniqueness lies in its ability to integrate health aspects with the rich culture of Yogyakarta. Visitors can find recommendations for suitable tourist attractions to visit between their treatment schedules, ensuring that their trip not only benefits their health, but also enriches their cultural insight.
             <br><br>With JogjaCare, Yogyakarta positions itself as a promising health tourism destination in Indonesia. This platform not only supports the development of the local tourism industry, but also contributes to improving health services in the area. Through collaboration between the tourism and health sectors, JogjaCare creates a mutually beneficial ecosystem, encouraging economic growth and improving service standards in both sectors.
             As a pioneer in its field, JogjaCare is paving the way for the development of health tourism in Indonesia, demonstrating the great potential this country has in attracting international medical tourists. By prioritizing service quality and local wisdom, JogjaCare is not only an information portal, but also an ambassador for the excellence of health services and friendly culture of Yogyakarta.</p> -->
-            <p class="leading-relaxed text-lg dark:text-black-100">
+            <p class="leading-relaxed text-lg dark:text-gray-200">
                 {{__('About Intro')}}
             <br><br>
                 {{__('About Services')}}
@@ -53,7 +53,7 @@
             <div class="flex flex-wrap -m-12">
             <div class="p-12 md:w-1/2 flex flex-col items-start">
                 <span class="inline-block py-1 px-2 mb-4 rounded bg-blue-500 text-white text-xs font-medium tracking-widest">Our Vision</span>
-                <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 dark:text-white mt-4 mb-4">"To be the leading platform connecting tourists with quality health services in Yogyakarta, combining the cultural beauty and friendliness of the city with modern medical care."
+                <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 dark:text-gray-200 mt-4 mb-4">"To be the leading platform connecting tourists with quality health services in Yogyakarta, combining the cultural beauty and friendliness of the city with modern medical care."
                     <br><br>This vision includes several important aspects:</h2>
                 <p class="leading-relaxed mb-8 dark:text-gray-300">1. Position as the main platform for health tourism
                 <br> 2. Focus on Yogyakarta as a destination
@@ -63,7 +63,7 @@
             </div>
             <div class="p-12 md:w-1/2 flex flex-col items-start">
                 <span class="inline-block py-1 px-2 mb-4 rounded bg-blue-500 text-white text-xs font-medium tracking-widest">Our Mission</span>
-                <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 dark:text-white mt-4 mb-4">"To be a trusted bridge connecting tourists with quality health services in Yogyakarta, while promoting the cultural richness and natural beauty of this area."
+                <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 dark:text-gray-200 mt-4 mb-4">"To be a trusted bridge connecting tourists with quality health services in Yogyakarta, while promoting the cultural richness and natural beauty of this area."
                     <br><br>This mission includes several important aspects:</h2>
                 <p class="leading-relaxed mb-8 dark:text-gray-300"> 1. Connecting tourists with health services
                 <br> 2. Guarantee the quality of the services offered
