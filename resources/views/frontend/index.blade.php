@@ -23,7 +23,7 @@
             <div class="mb-4 flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-x-4 sm:space-y-0 lg:mb-16">
                 <a class="inline-flex items-center justify-center rounded-lg border-0 bg-blue-500 px-5 py-3 text-center text-base font-medium text-white hover:bg-blue-600"
                     href="{{ route('frontend.aboutus') }}">
-                    Read more
+                    {{__('Read more')}}
                 </a>
             </div>
 
@@ -37,11 +37,11 @@
             <img class="object-cover object-center rounded animate-smooth-bounce" alt="hero" src="{{ asset('img/asset/Medical-care.png') }}">
             </div>
             <div class="animate-description lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">Medical Cares
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">{{__('Medical Cares')}}
                 </h1>
-                <p class="mb-8 leading-relaxed">Medical Care is a health service that focuses on providing the best and professional medical care. Our vision is to provide the most trusted and reputable hospital in the community. Our mission is to improve the quality of health services by using the latest technology and increasing public health awareness.</p>
+                <p class="mb-8 leading-relaxed">{{__('Medical Cares Descriptions')}}</p>
                 <div class="flex justify-center">
-                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalcares.index') }}">Read more</a>
+                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalcares.index') }}">{{__('Read more')}}</a>
                 </div>
             </div>
         </div>
@@ -50,11 +50,11 @@
     <section class="bg-white dark:bg-gray-800 text-gray-600 body-font">
         <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
             <div class="animate-description lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">Medical Points
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">{{__('Medical Points')}}
                 </h1>
-                <p class="mb-8 leading-relaxed dark:text-gray-400">Medical Point is a hospital that focuses on providing the best and professional health services. Our vision is to become the most trusted hospital and have a good reputation in the community. Our mission is to improve the quality of health services by using the latest technology and increasing public health awareness.</p>
+                <p class="mb-8 leading-relaxed dark:text-gray-400">{{__('Medical Points Descriptions')}}</p>
                 <div class="flex justify-center">
-                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalpoints.index') }}">Read more</a>
+                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalpoints.index') }}">{{__('Read more')}}</a>
                 </div>
             </div>
             <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
@@ -69,11 +69,11 @@
             <img class="object-cover object-center rounded animate-smooth-bounce" alt="hero" src="{{ asset('img/asset/Medical-center.png') }}">
             </div>
             <div class="animate-description lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">Medical Centers
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">{{__('Medical Centers')}}
                 </h1>
-                <p class="mb-8 leading-relaxed">Hospitals and Medical Centers function as medical information centers as a reference in planning patient care and also as documentation of communication between patients, health service providers and professionals who contribute to patient care. The aim of improving the quality of Hospitals and Medical Centers is to ensure documentation of compliance with institutional, professional and government regulations.</p>
+                <p class="mb-8 leading-relaxed">{{__('Medical Centers Descriptions')}}</p>
                 <div class="flex justify-center">
-                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalcenters.index') }}">Read more</a>
+                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalcenters.index') }}">{{__('Read more')}}</a>
                 </div>
             </div>
         </div>
@@ -82,11 +82,11 @@
     <section class="bg-white dark:bg-gray-800 text-gray-600 body-font">
         <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
             <div class="animate-description lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">Medical Costs
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">{{__('Medical Costs')}}
                 </h1>
-                <p class="mb-8 leading-relaxed dark:text-gray-400">Medical Costs are costs incurred by patients to obtain health services provided by hospitals or clinics. These costs can include treatment costs, drug costs, examination costs, and other costs related to health services. Treatment costs can include hospitalization costs, surgery costs, examination costs, and others.</p>
+                <p class="mb-8 leading-relaxed dark:text-gray-400">{{__('Medical Costs Descriptions')}}</p>
                 <div class="flex justify-center">
-                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalcosts.index') }}">Read more</a>
+                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalcosts.index') }}">{{__('Read more')}}</a>
                 </div>
             </div>
             <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
@@ -101,11 +101,11 @@
             <img class="object-cover object-center rounded animate-smooth-bounce" alt="hero" src="{{ asset('img/asset/Medical-alter.png') }}">
             </div>
             <div class="animate-description lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">Medical Alternative
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-white">{{__('Medical Alternative')}}
                 </h1>
-                <p class="mb-8 leading-relaxed">Traditional medicine is a medical service that has been used for a long time and is based on traditional knowledge. This service uses natural medicines, such as herbs, and traditional treatment methods, such as acupuncture and moxibustion. Traditional medicine is very popular in several countries, especially in Asia, because it is considered more effective and safer than conventional medicines.</p>
+                <p class="mb-8 leading-relaxed">{{__('Medical Alternative Descriptions')}}</p>
                 <div class="flex justify-center">
-                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalalters.index') }}">Read more</a>
+                    <a class="inline-flex text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg" href="{{ route('frontend.medicalalters.index') }}">{{__('Read more')}}</a>
                 </div>
             </div>
         </div>
@@ -114,8 +114,8 @@
     <section class="bg-white dark:bg-gray-800 text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
             <div class="flex flex-col text-center w-full mb-20">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">Recommended Destinations</h1>
-            <p class="lg:w-2/3 mx-auto leading-relaxed text-base dark:text-gray-400">JogjaCare presents the best health tourism destination, which offers the perfect combination of quality medical care and a refreshing holiday experience in the Cultural City of Yogyakarta</p>
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">{{__('Recommended Destinations')}}</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base dark:text-gray-400">{{__('Recommended Destinations Descriptions')}}</p>
             </div>
             <div class="flex flex-wrap -m-4">
             @foreach([

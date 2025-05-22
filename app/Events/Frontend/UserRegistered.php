@@ -11,40 +11,27 @@ use Illuminate\Queue\SerializesModels;
 
 class UserRegistered
 {
-    use Dispatchable;
-    use InteractsWithSockets;
-    use SerializesModels;
-
-    public $user;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $request;
+    public $user;
 
     /**
-     * User Registered Event Construct.
+     * Create a new event instance.
      */
-    public function __construct(Request $request, User $user)
+    public function __construct(array $data, User $user)
     {
+        $this->data = $data;
         $this->user = $user;
-        $this->request = $this->prepareRequestData($request);
-    }
-
-    public function prepareRequestData($request)
-    {
-        $data = $request->all();
-        $data['last_ip'] = optional(request())->getClientIp();
-
-        $data = collect($data);
-
-        return $data;
     }
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-        return new PrivateChannel('channel-name');
+        return [
+            new PrivateChannel('channel-name'),
+        ];
     }
 }

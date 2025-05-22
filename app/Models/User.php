@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
     use UserPresenter;
+    use HasApiTokens;
 
     protected $guarded = [
         'id',

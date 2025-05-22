@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->currentLocale()) }}" dir="{{ language_direction() }}">
-
-<head>
+    <head>
     <meta charset="utf-8" />
     <link href="{{ asset('img/favicon.png') }}" rel="apple-touch-icon" sizes="76x76">
     <link type="image/png" href="{{ asset('img/favicon.png') }}" rel="icon">
@@ -23,15 +22,26 @@
     @stack('after-styles')
     <x-google-analytics />
 
-    <!-- Load chat bot styles -->
-    @include('frontend.includes.chat-widget-styles')
+    <!-- Google Widget -->
+    {{-- <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {
+                pageLanguage: '{{ config('app.locale') }}',
+                includedLanguages: '{{ implode(',', array_keys(config('app.available_locales'))) }}',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            },
+            'google_translate_element'
+        );
+    }
+</script> --}}
 </head>
 
 <body class="bg-pastel-light text-gray-800 dark:bg-pastel-dark dark:text-white">
 
     @include('frontend.includes.header')
 
-    <main class="bg-pastel-card dark:bg-pastel-darkCard min-h-screen transition-colors duration-300">
+    <main class="dark:bg-gray-700 bg-pastel-card dark:bg-pastel-darkCard min-h-screen transition-colors duration-300">
         @yield('content')
     </main>
 
